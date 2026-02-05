@@ -23,6 +23,13 @@ export const getPastPresidents = async () => {
   }
 };
 
+// https://admin.adclubmadras.com/api/membership-firstpage
+export const getmembershipfirstpage = async () => {
+  const response = await axios.get(`${BASE_URL}/membership-firstpage`);
+  return response.data;
+};
+
+
 export const getExecutiveCommittee = async () => {
   try {
     const response = await axios.get(`${BASE_URL}/executive-comittee`);

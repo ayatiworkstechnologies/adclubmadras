@@ -1,12 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Download, ArrowRight } from "lucide-react";
+import { getmembershipfirstpage } from "../api/api";
 
 export default function MembershipPage() {
   const navigate = useNavigate();
   const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
 
+  const [files, setFiles] = useState({
+    uploadMembershipRegForm: "",
+    uploadMembershipRenewalForm: "",
+  });
+
+  // 🔹 Fetch API data
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await getmembershipfirstpage();
+        setFiles(res); // API returns direct object
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchData();
+  }, []);
   // Animation variants
   const fadeUp = {
     hidden: { opacity: 0, y: 30 },
@@ -51,7 +70,7 @@ export default function MembershipPage() {
           </motion.button>
 
           {/* Downloads */}
-          <div className="bg-gray-800 p-5 rounded-lg shadow-md">
+          {/* <div className="bg-gray-800 p-5 rounded-lg shadow-md">
             <h3 className="font-semibold text-white mb-4 text-base sm:text-lg">
               Offline Application
             </h3>
@@ -78,7 +97,52 @@ export default function MembershipPage() {
                 </a>
               </div>
             </div>
+          </div> */}
+         
+          {/* Downloads */}
+          <div className="bg-gray-800 p-5 rounded-lg shadow-md">
+            <h3 className="font-semibold text-white mb-4">
+              Offline Application
+            </h3>
+
+            <div className="space-y-3">
+
+              {/* 🔹 Registration Form (dynamic) */}
+              {files.uploadMembershipRegForm && (
+                <div className="flex items-center gap-2">
+                  <Download className="w-4 h-4 text-primary" />
+                  <a
+                    href={files.uploadMembershipRegForm}
+                    download
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:underline text-sm text-primary"
+                  >
+                    Application for Membership
+                  </a>
+                </div>
+              )}
+
+              {/* 🔹 Renewal Form (dynamic) */}
+              {files.uploadMembershipRenewalForm && (
+                <div className="flex items-center gap-2">
+                  <Download className="w-4 h-4 text-primary" />
+                  <a
+                    href={files.uploadMembershipRenewalForm}
+                    download
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:underline text-sm text-primary"
+                  >
+                    Application for Membership Renewal
+                  </a>
+                </div>
+              )}
+
+            </div>
           </div>
+       
+
         </motion.aside>
 
         {/* Main Content */}

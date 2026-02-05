@@ -9,7 +9,7 @@ import ThemeToggleButton from '../context/ThemeToggleButton';
 const MainLayout = ({ children }) => {
   return (
     <>
-      {/* <ScrollProgressBar /> */}
+      <ScrollProgressBar />
       <Navbar />
       <ScrollProgressBar />
       <main>{children}</main>
