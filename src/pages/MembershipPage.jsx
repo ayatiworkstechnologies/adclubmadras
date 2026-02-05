@@ -2,36 +2,68 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Download, ArrowRight } from "lucide-react";
-import { getmembershipfirstpage } from "../api/api";
+import { getmembershipfirstpage, getoptions } from "../api/api";
 
 export default function MembershipPage() {
-  const navigate = useNavigate();
-  const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
+const navigate = useNavigate();
+const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
 
-  const [files, setFiles] = useState({
-    uploadMembershipRegForm: "",
-    uploadMembershipRenewalForm: "",
-  });
+const [files, setFiles] = useState({
+  uploadMembershipRegForm: "",
+  uploadMembershipRenewalForm: "",
+});
 
-  // 🔹 Fetch API data
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await getmembershipfirstpage();
-        setFiles(res); // API returns direct object
-      } catch (err) {
-        console.error(err);
-      }
-    };
+const [fees, setFees] = useState({
+  corporate: 0,
+  GST: 0,
+  individual: 0,
+  student: 0,
+});
 
-    fetchData();
-  }, []);
-  // Animation variants
-  const fadeUp = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+
+// 🔹 Fetch BOTH APIs together
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const [fileRes, optionRes] = await Promise.all([
+        getmembershipfirstpage(),
+        getoptions(),
+      ]);
+
+      setFiles(fileRes);
+
+      // ✅ access inside .data
+      const opt = optionRes.data;
+
+      setFees({
+        corporate: Number(opt.corporate),
+        GST: Number(opt.GST),
+        individual: Number(opt.individual),
+        student: Number(opt.student),
+      });
+
+    } catch (err) {
+      console.error(err);
+    }
   };
 
+  fetchData();
+}, []);
+
+
+// 🔹 GST calculation helper
+const priceWithGST = (price = 0) =>
+  Math.round(price + (price * fees.GST) / 100);
+
+
+  const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6 },
+  },
+};
   return (
     <motion.div
       className="min-h-screen bg-black text-white pt-28 px-4 mt-10 md:px-12 pb-12 font-glancyr"
@@ -98,7 +130,7 @@ export default function MembershipPage() {
               </div>
             </div>
           </div> */}
-         
+
           {/* Downloads */}
           <div className="bg-gray-800 p-5 rounded-lg shadow-md">
             <h3 className="font-semibold text-white mb-4">
@@ -106,7 +138,6 @@ export default function MembershipPage() {
             </h3>
 
             <div className="space-y-3">
-
               {/* 🔹 Registration Form (dynamic) */}
               {files.uploadMembershipRegForm && (
                 <div className="flex items-center gap-2">
@@ -138,11 +169,8 @@ export default function MembershipPage() {
                   </a>
                 </div>
               )}
-
             </div>
           </div>
-       
-
         </motion.aside>
 
         {/* Main Content */}
@@ -185,10 +213,26 @@ export default function MembershipPage() {
             <h3 className="text-xl font-bold mb-3 text-primary font-asgard">
               Annual Membership Fee (From April to March):
             </h3>
-            <ul className="list-disc pl-6 space-y-2 text-sm sm:text-base text-gray-300">
-              <li>Rs. 5000/- + 18% GST = Rs. 5900/- for Corporates</li>
-              <li>Rs. 2000/- + 18% GST = Rs. 2360/- for Individuals</li>
+            {/* <ul className="list-disc pl-6 space-y-2 text-sm sm:text-base text-gray-300">
+              <li>Rs. 6000/- + 18% GST = Rs. 7080/- for Corporates</li>
+              <li>Rs. 2500/- + 18% GST = Rs. 2950/- for Individuals</li>
               <li>Rs. 1000/- + 18% GST = Rs. 1180/- for Students</li>
+            </ul> */}
+            <ul className="list-disc pl-6 space-y-2 text-sm sm:text-base text-gray-300">
+              <li>
+                Rs. {fees.corporate}/- + {fees.GST}% GST = Rs.{" "}
+                {priceWithGST(fees.corporate)}/- for Corporates
+              </li>
+
+              <li>
+                Rs. {fees.individual}/- + {fees.GST}% GST = Rs.{" "}
+                {priceWithGST(fees.individual)}/- for Individuals
+              </li>
+
+              <li>
+                Rs. {fees.student}/- + {fees.GST}% GST = Rs.{" "}
+                {priceWithGST(fees.student)}/- for Students
+              </li>
             </ul>
           </motion.div>
         </motion.main>

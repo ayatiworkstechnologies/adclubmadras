@@ -5,7 +5,11 @@ import * as yup from "yup";
 import { motion } from "framer-motion";
 import Swal from "sweetalert2";
 import { ImUserPlus } from "react-icons/im";
-import { submitMembershipApplication, getoptions, getMembershipDetails } from "@/api/api" ;
+import {
+  submitMembershipApplication,
+  getoptions,
+  getMembershipDetails,
+} from "@/api/api";
 import { ArrowRight } from "lucide-react";
 
 // ✅ GST Calculator Helper
@@ -38,7 +42,7 @@ const getSchema = (category) =>
               designation: yup.string().required("Designation required"),
               email: yup.string().email().required("Email required"),
               mobile: yup.string().required("Mobile required"),
-            })
+            }),
           )
         : yup.array().notRequired(),
     agree: yup.boolean().oneOf([true], "You must accept terms"),
@@ -117,7 +121,7 @@ export default function MembershipForm() {
     } else {
       setValue(
         "nominees",
-        Array(5).fill({ name: "", designation: "", email: "", mobile: "" })
+        Array(5).fill({ name: "", designation: "", email: "", mobile: "" }),
       );
     }
   }, [category, setValue, trigger]);
@@ -134,174 +138,171 @@ export default function MembershipForm() {
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const user_id = storedUser?.id;
 
-   /* ----------------- Patch Membership Details ----------------- */
-    useEffect(() => {
-      async function fetchMembershipDetails() {
-        try {
-          const storedUser = JSON.parse(localStorage.getItem("user"));
-          const email = storedUser?.email;
-          const user_id = storedUser?.id;
-          // console.log(user_id);
-          
-  
-          if (!email) {
-            console.warn("No email found in localStorage.user");
-            return;
-          }
-  
-          const res = await getMembershipDetails({ id: user_id });
-  
-          if (res?.status) {
-            const details = res.data;
-  
-            const organization = details.org_name;
-            const contactPerson = details.con_person;
-            const address = details.address;
-            const telephone = details.phone;
-            const mobile = details.mobile;
-            const useremail = details.email;
-            const facebook = details.facebook;
-            const twitter = details.twitter;
-            const linkedin = details.linkedin;
-  
-            // console.log(details);
-  
-            const nomineesData =
-              details.members && details.members !== ""
-                ? JSON.parse(details.members)
-                : Array(5).fill({
-                    name: "",
-                    designation: "",
-                    email: "",
-                    mobile: "",
-                  });
-  
-            const apiCategory =
-              details.mem_category?.toUpperCase() || "CORPORATE";
-            setCategory(apiCategory);
-  
-            reset({
-              category: apiCategory,
-              organization: organization,
-              contactPerson: contactPerson, // Not in API
-              address: address, // Not in API
-              telephone: telephone,
-              mobile: mobile,
-              email: useremail,
-              facebook: facebook,
-              twitter: twitter,
-              linkedin: linkedin,
-              nominees: nomineesData,
-              agree: false,
-            });
-          }
-        } catch (error) {
-          // console.error("Error fetching membership details:", error);
+  /* ----------------- Patch Membership Details ----------------- */
+  useEffect(() => {
+    async function fetchMembershipDetails() {
+      try {
+        const storedUser = JSON.parse(localStorage.getItem("user"));
+        const email = storedUser?.email;
+        const user_id = storedUser?.id;
+        // console.log(user_id);
+
+        if (!email) {
+          console.warn("No email found in localStorage.user");
+          return;
         }
+
+        const res = await getMembershipDetails({ id: user_id });
+
+        if (res?.status) {
+          const details = res.data;
+
+          const organization = details.org_name;
+          const contactPerson = details.con_person;
+          const address = details.address;
+          const telephone = details.phone;
+          const mobile = details.mobile;
+          const useremail = details.email;
+          const facebook = details.facebook;
+          const twitter = details.twitter;
+          const linkedin = details.linkedin;
+
+          // console.log(details);
+
+          const nomineesData =
+            details.members && details.members !== ""
+              ? JSON.parse(details.members)
+              : Array(5).fill({
+                  name: "",
+                  designation: "",
+                  email: "",
+                  mobile: "",
+                });
+
+          const apiCategory =
+            details.mem_category?.toUpperCase() || "CORPORATE";
+          setCategory(apiCategory);
+
+          reset({
+            category: apiCategory,
+            organization: organization,
+            contactPerson: contactPerson, // Not in API
+            address: address, // Not in API
+            telephone: telephone,
+            mobile: mobile,
+            email: useremail,
+            facebook: facebook,
+            twitter: twitter,
+            linkedin: linkedin,
+            nominees: nomineesData,
+            agree: false,
+          });
+        }
+      } catch (error) {
+        // console.error("Error fetching membership details:", error);
       }
-  
-      fetchMembershipDetails();
-    }, [reset]);
+    }
+
+    fetchMembershipDetails();
+  }, [reset]);
   // ✅ Form Submit
   const onSubmit = async (data) => {
-  try {
-    const payload = {
-      id: user_id,
-      category: data.category.toLowerCase(),
-    };
-
-    if (data.category.toUpperCase() === "CORPORATE") {
-      // ✅ Corporate fields (with _c suffix as per backend)
-      payload.companyname_c = data.organization;
-      payload.contactperson_c = data.contactPerson;
-      payload.address1_c = data.address;
-      payload.phoneno_c = data.telephone || "";
-      payload.mobileno_c = data.mobile;
-      payload.emailid_c = data.email;
-      payload.fb_c = data.facebook || "";
-      payload.twi_c = data.twitter || "";
-      payload.ln_c = data.linkedin || "";
-
-      // ✅ Corporate nominees (converted to name0, email0 style)
-      payload.tot_mem = data.nominees.length;
-      data.nominees.forEach((nom, index) => {
-        payload[`name${index}`] = nom.name;
-        payload[`designation${index}`] = nom.designation;
-        payload[`email${index}`] = nom.email;
-        payload[`mobile${index}`] = nom.mobile;
-      });
-
-    } else {
-      // ✅ Individual/Student fields (with _i suffix as per backend)
-      payload.companyname_i = data.organization;
-      payload.contactperson_i = data.contactPerson;
-      payload.address1_i = data.address;
-      payload.phoneno_i = data.telephone || "";
-      payload.mobileno_i = data.mobile;
-      payload.emailid_i = data.email;
-      payload.fb_i = data.facebook || "";
-      payload.twi_i = data.twitter || "";
-      payload.ln_i = data.linkedin || "";
-    }
-
-    // ✅ Submit to backend
-    const res = await submitMembershipApplication(payload);
-
-    if (res?.payment && res?.redirect_url) {
-      const {
-        amount,
-        email,
-        firstname,
-        phone,
-        productinfo,
-        txn_id,
-        surl,
-        furl,
-        udf1,
-        udf2,
-        hash_string,
-        merchant_key,
-      } = res.payment;
-
-      // ✅ Auto-submit to PayU
-      const fields = {
-        key: merchant_key,
-        txnid: txn_id,
-        amount: parseFloat(amount).toFixed(2),
-        productinfo,
-        firstname,
-        email,
-        phone,
-        udf1,
-        udf2,
-        surl,
-        furl,
-        hash: hash_string,
-        service_provider: "payu_paisa",
+    try {
+      const payload = {
+        id: user_id,
+        category: data.category.toLowerCase(),
       };
 
-      const form = document.createElement("form");
-      form.method = "POST";
-      form.action = res.redirect_url;
+      if (data.category.toUpperCase() === "CORPORATE") {
+        // ✅ Corporate fields (with _c suffix as per backend)
+        payload.companyname_c = data.organization;
+        payload.contactperson_c = data.contactPerson;
+        payload.address1_c = data.address;
+        payload.phoneno_c = data.telephone || "";
+        payload.mobileno_c = data.mobile;
+        payload.emailid_c = data.email;
+        payload.fb_c = data.facebook || "";
+        payload.twi_c = data.twitter || "";
+        payload.ln_c = data.linkedin || "";
 
-      Object.entries(fields).forEach(([key, value]) => {
-        const input = document.createElement("input");
-        input.type = "hidden";
-        input.name = key;
-        input.value = value;
-        form.appendChild(input);
-      });
+        // ✅ Corporate nominees (converted to name0, email0 style)
+        payload.tot_mem = data.nominees.length;
+        data.nominees.forEach((nom, index) => {
+          payload[`name${index}`] = nom.name;
+          payload[`designation${index}`] = nom.designation;
+          payload[`email${index}`] = nom.email;
+          payload[`mobile${index}`] = nom.mobile;
+        });
+      } else {
+        // ✅ Individual/Student fields (with _i suffix as per backend)
+        payload.companyname_i = data.organization;
+        payload.contactperson_i = data.contactPerson;
+        payload.address1_i = data.address;
+        payload.phoneno_i = data.telephone || "";
+        payload.mobileno_i = data.mobile;
+        payload.emailid_i = data.email;
+        payload.fb_i = data.facebook || "";
+        payload.twi_i = data.twitter || "";
+        payload.ln_i = data.linkedin || "";
+      }
 
-      document.body.appendChild(form);
-      form.submit();
-    } else {
-      throw new Error("Payment initiation failed.");
+      // ✅ Submit to backend
+      const res = await submitMembershipApplication(payload);
+
+      if (res?.payment && res?.redirect_url) {
+        const {
+          amount,
+          email,
+          firstname,
+          phone,
+          productinfo,
+          txn_id,
+          surl,
+          furl,
+          udf1,
+          udf2,
+          hash_string,
+          merchant_key,
+        } = res.payment;
+
+        // ✅ Auto-submit to PayU
+        const fields = {
+          key: merchant_key,
+          txnid: txn_id,
+          amount: parseFloat(amount).toFixed(2),
+          productinfo,
+          firstname,
+          email,
+          phone,
+          udf1,
+          udf2,
+          surl,
+          furl,
+          hash: hash_string,
+          service_provider: "payu_paisa",
+        };
+
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = res.redirect_url;
+
+        Object.entries(fields).forEach(([key, value]) => {
+          const input = document.createElement("input");
+          input.type = "hidden";
+          input.name = key;
+          input.value = value;
+          form.appendChild(input);
+        });
+
+        document.body.appendChild(form);
+        form.submit();
+      } else {
+        throw new Error("Payment initiation failed.");
+      }
+    } catch (error) {
+      Swal.fire("Error", error.message || "Something went wrong!", "error");
     }
-  } catch (error) {
-    Swal.fire("Error", error.message || "Something went wrong!", "error");
-  }
-};
-
+  };
 
   const handleAddNominee = async () => {
     if (fields.length >= 5) {
@@ -330,11 +331,13 @@ export default function MembershipForm() {
           Membership Application Form
         </h2>
 
-         <p className="text-gray-300 mb-10 text-center">We hereby apply for Membership to THE ADVERTISING CLUB MADRAS , if selected we will be goverened by
-          <br />The By – Laws and rules and regulations of the club . “ Annual Subscription ‘’
+        <p className="text-gray-300 mb-10 text-center">
+          We hereby apply for Membership to THE ADVERTISING CLUB MADRAS , if
+          selected we will be goverened by
+          <br />
+          The By – Laws and rules and regulations of the club . “ Annual
+          Subscription ‘’
         </p>
-
-        
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
           {/* Category Selection */}
@@ -374,8 +377,8 @@ export default function MembershipForm() {
                 {category === "INDIVIDUAL"
                   ? "Name of the Individual"
                   : category === "STUDENT"
-                  ? "Name of the Student"
-                  : "Name of the Organisation"}{" "}
+                    ? "Name of the Student"
+                    : "Name of the Organisation"}{" "}
                 <span className="text-primary">*</span>
               </label>
               <input
@@ -570,27 +573,35 @@ export default function MembershipForm() {
           <div className="space-y-6 text-sm text-gray-300">
             <div className="bg-gray-800 rounded-lg p-6 border border-gray-600 space-y-4">
               <p>
-                <strong className="text-white block mb-1">
-                  Payment Breakup Details:
-                </strong>
-                Rs. 5000/- + 18% (CGST 9%, SGST 9%) ={" "}
-                <strong className="text-primary">5900/-</strong> for Corporates
+                Rs. {fees.CORPORATE.base}/- +{" "}
+                {Math.round((fees.CORPORATE.gst / fees.CORPORATE.base) * 100)}%
+                (CGST 9%, SGST 9%) ={" "}
+                <strong className="text-primary">
+                  {Math.round(fees.CORPORATE.total)}/-
+                </strong>{" "}
+                for Corporates
               </p>
+
               <p>
-                Rs. 2000/- + 18% (CGST 9%, SGST 9%) ={" "}
-                <strong className="text-primary">2360/-</strong> for Individuals
+                Rs. {fees.INDIVIDUAL.base}/- +{" "}
+                {Math.round((fees.INDIVIDUAL.gst / fees.INDIVIDUAL.base) * 100)}
+                % (CGST 9%, SGST 9%) ={" "}
+                <strong className="text-primary">
+                  {Math.round(fees.INDIVIDUAL.total)}/-
+                </strong>{" "}
+                for Individuals
               </p>
+
               <p>
-                Rs. 1000/- + 18% (CGST 9%, SGST 9%) ={" "}
-                <strong className="text-primary">1180/-</strong> for Students
+                Rs. {fees.STUDENT.base}/- +{" "}
+                {Math.round((fees.STUDENT.gst / fees.STUDENT.base) * 100)}%
+                (CGST 9%, SGST 9%) ={" "}
+                <strong className="text-primary">
+                  {Math.round(fees.STUDENT.total)}/-
+                </strong>{" "}
+                for Students
               </p>
-              <p className="mt-2">
-                <strong>Offline Payment:</strong> Cheques should be drawn in
-                favour of{" "}
-                <strong className="text-white">
-                  “Advertising Club Madras”
-                </strong>
-              </p>
+
               <p className="italic">
                 Note: Any name/address change must be notified to the
                 Secretariat.
