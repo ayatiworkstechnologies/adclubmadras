@@ -41,6 +41,7 @@ import EventDetailPage from "./pages/Event/EventDetailPage";
 import PaymentStatus from "./components/PaymentStatus";
 import MembershipRenewalForm from "./components/MembershipReNewForm";
 import PressRelease from "./pages/PressRelease";
+import NewsLetter from "./pages/newsletter";
 
 // 🔁 Scroll to Top on route change
 function ScrollToTop() {
@@ -53,7 +54,8 @@ function ScrollToTop() {
 
 function AdminRedirect() {
   React.useEffect(() => {
-    window.location.href = "https://www.adclubmadras.com/admin/acm/console/login";
+    window.location.href =
+      "https://admin.adclubmadras.com/admin/acm/console/login";
   }, []);
 
   return null; // You can return a loader here if you want
@@ -109,7 +111,14 @@ function App() {
           }
         />
 
-        <Route path="/events/:eventSlug" element={<MainLayout><EventDetailPage /></MainLayout>} />
+        <Route
+          path="/events/:eventSlug"
+          element={
+            <MainLayout>
+              <EventDetailPage />
+            </MainLayout>
+          }
+        />
         <Route
           path="/contact"
           element={
@@ -123,6 +132,14 @@ function App() {
           element={
             <MainLayout>
               <PressRelease />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/newsletter"
+          element={
+            <MainLayout>
+              <NewsLetter />
             </MainLayout>
           }
         />
@@ -225,9 +242,16 @@ function App() {
             </MainLayout>
           }
         />
-        
-        <Route path="/payment-status" element={ <MainLayout><PaymentStatus /></MainLayout>} />
-         <Route
+
+        <Route
+          path="/payment-status"
+          element={
+            <MainLayout>
+              <PaymentStatus />
+            </MainLayout>
+          }
+        />
+        <Route
           path="/profile"
           element={
             <MainLayout>

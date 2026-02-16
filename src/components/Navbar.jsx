@@ -53,7 +53,11 @@ export default function Navbar() {
       setUser(null);
       closeMenu();
 
-      Swal.fire("Logged Out", "You have been logged out successfully.", "success").then(() => {
+      Swal.fire(
+        "Logged Out",
+        "You have been logged out successfully.",
+        "success",
+      ).then(() => {
         window.location.href = "/";
       });
     }
@@ -63,10 +67,10 @@ export default function Navbar() {
   const navLinkClass = ({ isActive }) =>
     [
       "font-semibold transition duration-200",
-      "px-3 py-1.5 rounded-md",               // pill shape
+      "px-3 py-1.5 rounded-md", // pill shape
       isActive
         ? "text-primary font-asgard" // ACTIVE
-        : "hover:text-primary hover:bg-white/5",            // HOVER
+        : "hover:text-primary hover:bg-white/5", // HOVER
     ].join(" ");
 
   return (
@@ -126,14 +130,26 @@ export default function Navbar() {
             </li>
           </ul>
 
-          <div className="flex flex-col gap-2 ml-4">
-            <NavLink to="/contact" className={navLinkClass}>
-              Contact
-            </NavLink>
-            <NavLink to="/press-release" className={navLinkClass}>
-              Press Release
-            </NavLink>
-          </div>
+          <ul className="flex flex-col gap-2">
+            <li>
+              {" "}
+              <NavLink to="/contact" className={navLinkClass}>
+                Contact
+              </NavLink>
+            </li>
+            <li>
+              {" "}
+              <NavLink to="/press-release" className={navLinkClass}>
+                Press Release
+              </NavLink>
+            </li>
+            <li>
+              {" "}
+              <NavLink to="/newsletter" className={navLinkClass}>
+                Newsletter
+              </NavLink>
+            </li>
+          </ul>
 
           {user ? (
             <div className="relative group ml-4">
@@ -165,7 +181,10 @@ export default function Navbar() {
           ) : (
             <NavLink
               to="/login"
-              className={["ml-4 text-primary font-primary font-bold", "px-3 py-1.5 rounded-md hover:bg-white/5"].join(" ")}
+              className={[
+                "ml-4 text-primary font-primary font-bold",
+                "px-3 py-1.5 rounded-md hover:bg-white/5",
+              ].join(" ")}
             >
               Members Login
             </NavLink>
@@ -173,8 +192,16 @@ export default function Navbar() {
         </nav>
 
         {/* ===== Hamburger ===== */}
-        <button className="md:hidden z-50" onClick={toggleMenu} aria-label="Toggle menu">
-          {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        <button
+          className="md:hidden z-50"
+          onClick={toggleMenu}
+          aria-label="Toggle menu"
+        >
+          {isMenuOpen ? (
+            <X className="w-6 h-6" />
+          ) : (
+            <Menu className="w-6 h-6" />
+          )}
         </button>
       </header>
 
@@ -187,7 +214,11 @@ export default function Navbar() {
           darkMode ? "bg-black text-white" : "bg-white text-black"
         }`}
       >
-        <button className="self-end mb-4" onClick={closeMenu} aria-label="Close menu">
+        <button
+          className="self-end mb-4"
+          onClick={closeMenu}
+          aria-label="Close menu"
+        >
           <X className="w-6 h-6" />
         </button>
 
@@ -217,17 +248,27 @@ export default function Navbar() {
         <NavLink to="/contact" onClick={closeMenu} className={navLinkClass}>
           Contact
         </NavLink>
-        <NavLink to="/press-release" onClick={closeMenu} className={navLinkClass}>
+        <NavLink
+          to="/press-release"
+          onClick={closeMenu}
+          className={navLinkClass}
+        >
           Press Release
         </NavLink>
 
         {user ? (
           <>
-            <p className="font-bold font-primary text-primary"> {user.firstName || "Member"} </p>
+            <p className="font-bold font-primary text-primary">
+              {" "}
+              {user.firstName || "Member"}{" "}
+            </p>
             <NavLink to="/profile" onClick={closeMenu} className={navLinkClass}>
               My Profile
             </NavLink>
-            <button onClick={handleLogout} className="text-primary font-primary font-bold hover:underline">
+            <button
+              onClick={handleLogout}
+              className="text-primary font-primary font-bold hover:underline"
+            >
               Logout
             </button>
           </>
@@ -235,7 +276,10 @@ export default function Navbar() {
           <NavLink
             to="/login"
             onClick={closeMenu}
-            className={["font-bold font-primary text-primary", "px-3 py-1.5 rounded-md hover:bg-white/5"].join(" ")}
+            className={[
+              "font-bold font-primary text-primary",
+              "px-3 py-1.5 rounded-md hover:bg-white/5",
+            ].join(" ")}
           >
             Members Login
           </NavLink>
@@ -244,7 +288,10 @@ export default function Navbar() {
 
       {/* ===== Backdrop ===== */}
       {isMenuOpen && (
-        <div onClick={closeMenu} className="fixed inset-0 bg-black/50 backdrop-blur-sm md:hidden z-30" />
+        <div
+          onClick={closeMenu}
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm md:hidden z-30"
+        />
       )}
     </>
   );
