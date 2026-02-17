@@ -136,7 +136,7 @@ function App() {
           }
         />
         <Route
-          path="/newsletter"
+          path="/headline"
           element={
             <MainLayout>
               <NewsLetter />

@@ -49,7 +49,7 @@ export default function NewsLetter() {
           transition={{ duration: 0.6 }}
           className="text-4xl md:text-5xl font-asgard font-bold text-primary"
         >
-          Newsletters
+          HEADLINE
         </motion.h1>
       </div>
 

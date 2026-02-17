@@ -145,8 +145,8 @@ export default function Navbar() {
             </li>
             <li>
               {" "}
-              <NavLink to="/newsletter" className={navLinkClass}>
-                Newsletter
+              <NavLink to="/headline" className={navLinkClass}>
+                HEADLINE
               </NavLink>
             </li>
           </ul>
