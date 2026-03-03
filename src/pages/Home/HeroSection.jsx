@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import bgGraphic from "/assets/hero-fream.svg";
 import { useTheme } from "@/context/ThemeContext";
 import { motion } from "framer-motion";
-import maddyImage from "/maddys-25.jpg"; // ✅ Ensure this is in `public` or correct `src/assets` path
+import maddyImage from "/maddys-2026.png"; // ✅ Ensure this is in `public` or correct `src/assets` path
 import { useNavigate } from "react-router-dom";
 
 export default function HeroSection() {
@@ -12,9 +12,8 @@ export default function HeroSection() {
 
   return (
     <section
-      className={`relative min-h-screen overflow-hidden md:px-8  py-5 sm:py-16 transition-colors duration-500 ${
-        darkMode ? "bg-black text-white" : "bg-black text-white"
-      }`}
+      className={`relative min-h-screen overflow-hidden md:px-8  py-5 sm:py-16 transition-colors duration-500 ${darkMode ? "bg-black text-white" : "bg-black text-white"
+        }`}
     >
       <div
         className="relative z-10 sm:pt-32 pt-10 text-left overflow-hidden max-w-6xl mx-auto"
@@ -73,18 +72,39 @@ export default function HeroSection() {
 
             {/* Left Overlay: Text + Button */}
             {/* Left Bottom Overlay: Text + Button */}
-            <div className="absolute bottom-6 left-6 sm:left-10 text-left z-20">
+            <div className="absolute bottom-16 left-6 sm:left-10 text-left z-20">
               <h2 className="text-xl sm:text-2xl md:text-4xl font-bold uppercase mb-3 font-glancyr text-black drop-shadow-lg">
-                MADDYS 2025
+                MADDYS 2026
               </h2>
-              <button
+              <motion.button
                 onClick={() =>
-                  window.open("https://maddys2025.adclubmadras.com/", "_blank")
+                  window.open("https://maddys2026.adclubmadras.com/", "_blank")
                 }
-                className="bg-primary/80 text-black px-6 py-2 font-asgard sm:px-8 sm:py-3 rounded-full text-xs sm:text-sm font-bold uppercase hover:bg-primary transition-all duration-300"
+                className="group relative overflow-hidden bg-[#e92028] text-white px-6 py-2 font-asgard sm:px-8 sm:py-3 rounded-full text-xs sm:text-sm font-bold uppercase cursor-pointer"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6, duration: 0.5 }}
+                whileHover={{
+                  scale: 1.07,
+                  boxShadow: "0 0 25px rgba(var(--color-primary-rgb, 255,193,7), 0.5)",
+                }}
+                whileTap={{ scale: 0.95 }}
               >
-                Explore More
-              </button>
+                {/* Shimmer sweep */}
+                <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+                <span className="relative z-10 flex items-center gap-2">
+                  Explore More
+                  <svg
+                    className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </span>
+              </motion.button>
             </div>
 
             {/* Scroll Indicator */}
