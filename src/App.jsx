@@ -42,6 +42,7 @@ import PaymentStatus from "./components/PaymentStatus";
 import MembershipRenewalForm from "./components/MembershipReNewForm";
 import PressRelease from "./pages/PressRelease";
 import NewsLetter from "./pages/newsletter";
+import CoursePage from "./pages/CoursePage";
 
 // 🔁 Scroll to Top on route change
 function ScrollToTop() {
@@ -59,6 +60,13 @@ function AdminRedirect() {
   }, []);
 
   return null; // You can return a loader here if you want
+}
+
+function CoursesRedirect() {
+  React.useEffect(() => {
+    window.location.href = "https://pgda.adclubmadras.com/";
+  }, []);
+  return null;
 }
 // 🏠 Homepage with sections
 function HomePage() {
@@ -258,6 +266,18 @@ function App() {
               <ProfilePage />
             </MainLayout>
           }
+        />
+        <Route
+          path="/course-new"
+          element={
+            <MainLayout>
+              <CoursePage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/courses"
+          element={<CoursesRedirect />}
         />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

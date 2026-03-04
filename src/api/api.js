@@ -196,24 +196,54 @@ export const getMembershipDetails = async (payload) => {
 
 
 export const postContactForm = async (data) => {
-  const response = await axios.post(`${BASE_URL}/contact`, data, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const response = await axios.post(
+    "https://api.ayatiworks.com/api/v1/public/adclub/contact_ad/records",
+    { data },
+    {
+      headers: {
+        "Content-Type": "application/json",
+        "X-API-Key": "a1b3fed4f08aedb4aa9bf52cedf68ac1d24d10a110e39a6cbcd639924bf94416",
+      },
+    }
+  );
   return response.data;
 };
 
 export const postJobApplication = async (formData) => {
   try {
-    const response = await axios.post(`${BASE_URL}/job-opportunity`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+    // Convert FormData to a plain object for JSON payload
+    const dataObj = {};
+    formData.forEach((value, key) => {
+      dataObj[key] = value;
     });
+
+    const response = await axios.post(
+      "https://api.ayatiworks.com/api/v1/public/adclub/careers/records",
+      { data: dataObj },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "X-API-Key": "a1b3fed4f08aedb4aa9bf52cedf68ac1d24d10a110e39a6cbcd639924bf94416",
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Job Application Error:", error.response?.data || error.message);
     throw error;
   }
+};
+
+export const postCourseEnquiry = async (data) => {
+  const response = await axios.post(
+    "https://api.ayatiworks.com/api/v1/public/adclub/couses/records",
+    { data },
+    {
+      headers: {
+        "Content-Type": "application/json",
+        "X-API-Key": "a1b3fed4f08aedb4aa9bf52cedf68ac1d24d10a110e39a6cbcd639924bf94416",
+      },
+    }
+  );
+  return response.data;
 };

@@ -23,6 +23,7 @@ import MembershipRenewalForm from "./components/MembershipReNewForm";
 import ProfilePage from "./pages/ProfilePage";
 import PaymentStatus from "./components/PaymentStatus";
 import NotFoundPage from "./components/NotFoundPage";
+import CoursePage from "./pages/CoursePage";
 
 /* Home sections */
 import AnimatedBackground from "./components/background";
@@ -42,6 +43,14 @@ function AdminRedirect() {
   React.useEffect(() => {
     window.location.href =
       "https://www.adclubmadras.com/admin/acm/console/login";
+  }, []);
+  return null;
+}
+
+/* Courses Redirect */
+function CoursesRedirect() {
+  React.useEffect(() => {
+    window.location.href = "https://pgda.adclubmadras.com/";
   }, []);
   return null;
 }
@@ -82,6 +91,7 @@ export default function AppRoutes() {
       <Route path="/gallery" element={<MainLayout><GallaryPage /></MainLayout>} />
       <Route path="/gallery/:id" element={<MainLayout><GallaryDetailePage /></MainLayout>} />
       <Route path="/career" element={<MainLayout><CareerPages /></MainLayout>} />
+      <Route path="/course-new" element={<MainLayout><CoursePage /></MainLayout>} />
       <Route path="/terms-conditions" element={<MainLayout><TermsConditions /></MainLayout>} />
       <Route path="/refund-and-cancellation" element={<MainLayout><RefundPolicy /></MainLayout>} />
       <Route path="/privacy-policy" element={<MainLayout><PrivacyPolicy /></MainLayout>} />
@@ -92,6 +102,7 @@ export default function AppRoutes() {
       <Route path="/payment-status" element={<MainLayout><PaymentStatus /></MainLayout>} />
       <Route path="/profile" element={<MainLayout><ProfilePage /></MainLayout>} />
       <Route path="/admin" element={<AdminRedirect />} />
+      <Route path="/courses" element={<CoursesRedirect />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );

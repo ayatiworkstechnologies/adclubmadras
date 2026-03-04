@@ -77,9 +77,8 @@ export default function Navbar() {
     <>
       {/* ===== Header ===== */}
       <header
-        className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between p-2 px-6 md:px-12 transition-colors duration-500 ${
-          scrolled ? "backdrop-blur bg-black/80 shadow-md" : "bg-black"
-        } ${darkMode ? "text-white" : "text-white"}`}
+        className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between p-2 px-6 md:px-12 transition-colors duration-500 ${scrolled ? "backdrop-blur bg-black/80 shadow-md" : "bg-black"
+          } ${darkMode ? "text-white" : "text-white"}`}
       >
         {/* Logo */}
         <NavLink to="/" className="flex items-center">
@@ -95,13 +94,8 @@ export default function Navbar() {
               </NavLink>
             </li>
             <li>
-              {/* External link can't be "active" via router */}
-              <a
-                href="https://pgda.adclubmadras.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-semibold px-3 py-1.5 rounded-md hover:text-primary hover:bg-white/5 transition duration-200"
-              >
+              {/* External link */}
+              <a href="https://pgda.adclubmadras.com/" target="_blank" rel="noopener noreferrer" className={navLinkClass({ isActive: false })}>
                 Courses
               </a>
             </li>
@@ -210,9 +204,8 @@ export default function Navbar() {
         initial={{ x: "100%" }}
         animate={{ x: isMenuOpen ? 0 : "100%" }}
         transition={{ type: "tween", duration: 0.35 }}
-        className={`fixed top-0 right-0 h-full w-64 sm:w-72 p-8 z-40 flex flex-col gap-6 text-sm uppercase font-medium shadow-2xl transition-colors ${
-          darkMode ? "bg-black text-white" : "bg-white text-black"
-        }`}
+        className={`fixed top-0 right-0 h-full w-64 sm:w-72 p-8 z-40 flex flex-col gap-6 text-sm uppercase font-medium shadow-2xl transition-colors ${darkMode ? "bg-black text-white" : "bg-white text-black"
+          }`}
       >
         <button
           className="self-end mb-4"
@@ -225,12 +218,7 @@ export default function Navbar() {
         <NavLink to="/about-us" onClick={closeMenu} className={navLinkClass}>
           About Us
         </NavLink>
-        <a
-          href="https://pgda.adclubmadras.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="font-semibold px-3 py-1.5 rounded-md hover:text-primary hover:bg-white/5 transition duration-200"
-        >
+        <a href="https://pgda.adclubmadras.com/" target="_blank" rel="noopener noreferrer" onClick={closeMenu} className={navLinkClass({ isActive: false })}>
           Courses
         </a>
         <NavLink to="/membership" onClick={closeMenu} className={navLinkClass}>

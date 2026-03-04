@@ -71,7 +71,7 @@ export default function JobApplicationPage() {
 
       const res = await postJobApplication(formData);
 
-      if (res.status === "success") {
+      if (res.id) {
         Swal.fire("Success!", "Job submitted successfully!", "success");
         reset();
         document.querySelector('input[type="file"]').value = "";

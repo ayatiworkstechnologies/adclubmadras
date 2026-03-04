@@ -25,20 +25,27 @@ export default function ContactSection() {
 
       const res = await postContactForm(payload);
 
-      Swal.fire({
-        icon: "success",
-        title: "Success",
-        text: res.message || "Message sent successfully!",
-      });
-
-      reset();
+      if (res.id) {
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Message sent successfully!",
+        });
+        reset();
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Something went wrong. Please try again.",
+        });
+      }
     } catch (err) {
       Swal.fire({
         icon: "error",
         title: "Error",
         text:
+          err?.response?.data?.message ||
           err?.message ||
-          (err?.errors && Object.values(err.errors).flat().join(", ")) ||
           "Something went wrong",
       });
     }

@@ -57,14 +57,9 @@ const FooterSection = () => {
             </button>
 
             {/* Row 2 */}
-            <a
-              href="https://pgda.adclubmadras.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-white col-span-1"
-            >
+            <Link to="/courses-new" className="hover:text-white col-span-1">
               COURSES
-            </a>
+            </Link>
             <Link to="/gallery" className="hover:text-white col-span-1">
               GALLERY
             </Link>

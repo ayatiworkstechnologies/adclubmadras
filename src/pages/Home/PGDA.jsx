@@ -1,10 +1,13 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function PGDACourseCard() {
-  const handleExternalLink = () => {
-    window.open("https://pgda.adclubmadras.com/", "_blank");
+  const navigate = useNavigate();
+
+  const handleViewDetails = () => {
+    navigate("/courses-new");
   };
 
   return (
@@ -27,7 +30,7 @@ export default function PGDACourseCard() {
       <motion.button
         whileHover={{ scale: 1.05 }}
         type="button"
-        onClick={handleExternalLink}
+        onClick={handleViewDetails}
         className="flex items-center group w-fit"
       >
         <span className="px-6 py-3 text-base bg-white hover:bg-primary text-black rounded-full font-bold font-asgard group-hover:bg-primary group-hover:text-black transition duration-300">
