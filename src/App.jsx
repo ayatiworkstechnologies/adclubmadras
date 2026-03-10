@@ -59,7 +59,7 @@ function AdminRedirect() {
       "https://admin.adclubmadras.com/admin/acm/console/login";
   }, []);
 
-  return null; // You can return a loader here if you want
+  return null;
 }
 
 function CoursesRedirect() {

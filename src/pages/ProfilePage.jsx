@@ -24,6 +24,7 @@ import {
   FaMobile,
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import Loader from "@/components/Loader";
 
 export default function ProfilePage() {
   const [tab, setTab] = useState("profile");
@@ -112,7 +113,7 @@ export default function ProfilePage() {
               const isActive =
                 membershipData?.status &&
                 String(membershipData?.member_status).toLowerCase() ===
-                  "active";
+                "active";
 
               if (isActive) {
                 setHasMembership(true);
@@ -224,22 +225,20 @@ export default function ProfilePage() {
         <div className="w-full md:w-1/4 space-y-4">
           <button
             onClick={() => setTab("profile")}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition ${
-              tab === "profile"
-                ? "bg-primary text-black shadow-md"
-                : "bg-gray-800 hover:bg-gray-700"
-            }`}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition ${tab === "profile"
+              ? "bg-primary text-black shadow-md"
+              : "bg-gray-800 hover:bg-gray-700"
+              }`}
           >
             <TbUserUp size={30} />
             <span className="font-semibold">My Profile</span>
           </button>
           <button
             onClick={() => setTab("membership")}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition ${
-              tab === "membership"
-                ? "bg-primary text-black shadow-md"
-                : "bg-gray-800 hover:bg-gray-700"
-            }`}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition ${tab === "membership"
+              ? "bg-primary text-black shadow-md"
+              : "bg-gray-800 hover:bg-gray-700"
+              }`}
           >
             <ShieldCheck size={30} />
             <span className="font-semibold">Membership</span>
@@ -309,6 +308,7 @@ function ProfileTab({
       transition={{ duration: 0.5 }}
       className="space-y-10"
     >
+      {(loadingProfile || loadingPassword) && <Loader />}
       {/* Profile Info */}
       <div>
         <h3 className="text-xl font-bold mb-4 border-b pb-2 border-gray-700">
@@ -354,11 +354,10 @@ function ProfileTab({
             <button
               type="submit"
               disabled={loadingProfile}
-              className={`mt-4 px-6 py-2 rounded-full font-semibold ${
-                loadingProfile
-                  ? "bg-gray-600 cursor-not-allowed"
-                  : "bg-primary text-black"
-              }`}
+              className={`mt-4 px-6 py-2 rounded-full font-semibold ${loadingProfile
+                ? "bg-gray-600 cursor-not-allowed"
+                : "bg-primary text-black"
+                }`}
             >
               {loadingProfile ? "Saving..." : "Save Changes"}
             </button>
@@ -385,8 +384,8 @@ function ProfileTab({
                   field === "oldPassword"
                     ? "Old Password"
                     : field === "newPassword"
-                    ? "New Password"
-                    : "Confirm Password"
+                      ? "New Password"
+                      : "Confirm Password"
                 }
               />
               <button
@@ -407,11 +406,10 @@ function ProfileTab({
             <button
               type="submit"
               disabled={loadingPassword}
-              className={`mt-4 px-6 py-2 rounded-full font-semibold ${
-                loadingPassword
-                  ? "bg-gray-600 cursor-not-allowed"
-                  : "bg-primary text-black"
-              }`}
+              className={`mt-4 px-6 py-2 rounded-full font-semibold ${loadingPassword
+                ? "bg-gray-600 cursor-not-allowed"
+                : "bg-primary text-black"
+                }`}
             >
               {loadingPassword ? "Submitting..." : "Submit"}
             </button>
@@ -455,7 +453,7 @@ function MembershipTab({ loadingMembership, hasMembership, userData }) {
       </h3>
 
       {loadingMembership ? (
-        <p className="text-gray-400">Loading membership details...</p>
+        <Loader />
       ) : hasMembership && userData?.membershipDetails ? (
         <>
           {/* ✅ Membership Info Cards */}

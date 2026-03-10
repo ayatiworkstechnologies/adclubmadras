@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getExecutiveCommittee } from "@/api/api"; // Adjust path to match your project
+import Loader from "@/components/Loader";
 
 const ExecutiveCommittee = () => {
   const [committeeList, setCommitteeList] = useState([]);
@@ -41,7 +42,7 @@ const ExecutiveCommittee = () => {
 
   const visibleYears = committeeList.slice(startIndex, startIndex + 6);
 
-  if (loading) return <div className="text-white text-center py-10">Loading...</div>;
+  if (loading) return <Loader />;
   if (error) return <div className="text-red-500 text-center py-10">{error}</div>;
 
   return (
@@ -57,9 +58,8 @@ const ExecutiveCommittee = () => {
           <button
             onClick={scrollUp}
             disabled={startIndex === 0}
-            className={`mb-4 w-10 h-10 flex items-center justify-center rounded-full ${
-              startIndex === 0 ? "opacity-30 cursor-not-allowed" : "text-primary hover:text-white"
-            }`}
+            className={`mb-4 w-10 h-10 flex items-center justify-center rounded-full ${startIndex === 0 ? "opacity-30 cursor-not-allowed" : "text-primary hover:text-white"
+              }`}
           >
             ▲
           </button>
@@ -72,11 +72,10 @@ const ExecutiveCommittee = () => {
                 className="w-full text-center cursor-pointer px-2"
               >
                 <p
-                  className={`py-1 rounded transition ${
-                    selectedCommittee?.id === item.id
+                  className={`py-1 rounded transition ${selectedCommittee?.id === item.id
                       ? "text-primary bg-primary bg-opacity-10 font-bold"
                       : "text-white text-sm"
-                  }`}
+                    }`}
                 >
                   {item.yearTitle.replace("Executive Committee Members ", "")}
                 </p>
@@ -87,11 +86,10 @@ const ExecutiveCommittee = () => {
           <button
             onClick={scrollDown}
             disabled={startIndex + 6 >= committeeList.length}
-            className={`mt-4 w-10 h-10 flex items-center justify-center rounded-full ${
-              startIndex + 6 >= committeeList.length
+            className={`mt-4 w-10 h-10 flex items-center justify-center rounded-full ${startIndex + 6 >= committeeList.length
                 ? "opacity-30 cursor-not-allowed"
                 : "text-primary hover:text-white"
-            }`}
+              }`}
           >
             ▼
           </button>

@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 /* ---------------- Newsletter Data ---------------- */
 const MEDIA_COVERAGE = [
@@ -21,23 +22,31 @@ const safeFormatDate = (val) => {
   return isNaN(d)
     ? val
     : d.toLocaleDateString(undefined, {
-        year: "numeric",
-        month: "short",
-      });
+      year: "numeric",
+      month: "short",
+    });
 };
 
 export default function NewsLetter() {
   const [query, setQuery] = useState("");
+  const [activeYear, setActiveYear] = useState("2025");
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   const filtered = useMemo(() => {
+    let results = MEDIA_COVERAGE.filter((item) => {
+      if (!item.date) return false;
+      return item.date.includes(activeYear);
+    });
+
     const q = query.trim().toLowerCase();
-    if (!q) return MEDIA_COVERAGE;
-    return MEDIA_COVERAGE.filter((r) => r.title.toLowerCase().includes(q));
-  }, [query]);
+    if (q) {
+      results = results.filter((r) => r.title.toLowerCase().includes(q));
+    }
+    return results;
+  }, [query, activeYear]);
 
   return (
     <section className="min-h-screen bg-black text-white pt-24 md:pt-32 pb-20 px-6 md:px-16">
@@ -51,6 +60,42 @@ export default function NewsLetter() {
         >
           HEADLINE
         </motion.h1>
+      </div>
+
+      {/* Tabs */}
+      <div className="flex justify-center items-center gap-4 sm:gap-8 mb-10 text-sm sm:text-base font-bold uppercase font-glancyr">
+        <button
+          className="p-1 rounded opacity-40 cursor-not-allowed"
+          aria-label="Previous tabs"
+        >
+          <ChevronLeft className="w-6 h-6 text-primary" />
+        </button>
+
+        <div className="flex gap-4 sm:gap-8 items-center">
+          {["2025", "2026"].map((year, index) => (
+            <React.Fragment key={year}>
+              <button
+                onClick={() => setActiveYear(year)}
+                className={`relative z-10 px-2 py-2 text-sm sm:text-base lg:text-lg tracking-wider font-bold transition duration-300 ${activeYear === year
+                  ? "text-primary"
+                  : "text-white hover:text-primary"
+                  }`}
+              >
+                {year}
+              </button>
+              {index !== 1 && (
+                <span className="text-primary font-bold text-lg select-none">|</span>
+              )}
+            </React.Fragment>
+          ))}
+        </div>
+
+        <button
+          className="p-1 rounded opacity-40 cursor-not-allowed"
+          aria-label="Next tabs"
+        >
+          <ChevronRight className="w-6 h-6 text-primary" />
+        </button>
       </div>
 
       {/* Search */}

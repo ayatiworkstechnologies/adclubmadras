@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
-import { getEvents } from "@/api/api" ; // Replace with correct path if needed
+import { getEvents } from "@/api/api";
 import dayjs from "dayjs";
+import Loader from "@/components/Loader";
 
 export default function AllEvents() {
   const [openIndex, setOpenIndex] = useState(null);
@@ -48,7 +49,7 @@ export default function AllEvents() {
     fetchEvents();
   }, []);
 
-  if (loading) return <div className="text-white text-center py-10">Loading Events...</div>;
+  if (loading) return <Loader />;
 
   return (
     <section className="bg-black text-white py-12 px-4 sm:px-6 lg:px-8">
@@ -89,9 +90,8 @@ export default function AllEvents() {
                   className="relative w-10 h-10 rounded-full bg-primary overflow-hidden flex items-center justify-center transition-all duration-300 group-hover:w-28"
                 >
                   <div
-                    className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${
-                      openIndex === i ? "opacity-100" : "group-hover:opacity-0"
-                    }`}
+                    className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${openIndex === i ? "opacity-100" : "group-hover:opacity-0"
+                      }`}
                   >
                     {openIndex === i ? (
                       <ChevronDown className="w-4 h-4 text-black" />
@@ -100,11 +100,10 @@ export default function AllEvents() {
                     )}
                   </div>
                   <div
-                    className={`absolute inset-0 flex items-center justify-center ${
-                      openIndex === i
+                    className={`absolute inset-0 flex items-center justify-center ${openIndex === i
                         ? "opacity-0"
                         : "opacity-0 group-hover:opacity-100"
-                    } transition-opacity duration-300`}
+                      } transition-opacity duration-300`}
                   >
                     <span className="text-black text-[10px] sm:text-xs font-bold uppercase tracking-wide whitespace-nowrap">
                       View Details

@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { FaArrowUp } from "react-icons/fa";
+import { motion } from "framer-motion";
+import Loader from "./Loader";
 
 import logo from "/assets/logo.svg";
 export default function ScrollToTopWithLoader() {
@@ -34,16 +36,7 @@ export default function ScrollToTopWithLoader() {
 
   // Loader UI
   if (loading) {
-    return (
-      <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
-        {/* <img
-          src={logo}
-          alt="Loading..."
-          className="w-20 h-20 animate-spin"
-        /> */}
-        <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
+    return <Loader />;
   }
 
   // Scroll-to-top button

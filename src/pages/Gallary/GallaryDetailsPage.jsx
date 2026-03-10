@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { getGallery, getGalleryPhotos } from "@/api/api" ;
+import { getGallery, getGalleryPhotos } from "@/api/api";
 import { X, ChevronLeft, ChevronRight, ArrowLeft } from "lucide-react";
+import Loader from "@/components/Loader";
 
 export default function GallaryDetailPage() {
   const { id: slugOrId } = useParams();
@@ -101,14 +102,7 @@ export default function GallaryDetailPage() {
 
   // ✅ Loader
   if (loading) {
-    return (
-      <section className="flex justify-center items-center h-screen bg-black text-white">
-        <div className="flex flex-col items-center space-y-4">
-          <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-          {/* <p className="text-xl font-bold animate-pulse">Loading Gallery Details...</p> */}
-        </div>
-      </section>
-    );
+    return <Loader />;
   }
 
   if (!galleryItem) {

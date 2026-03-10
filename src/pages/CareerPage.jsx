@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Swal from "sweetalert2";
 import { postJobApplication } from "@/api/api";
+import Loader from "@/components/Loader";
 
 // 🔶 Validation Schema including logo
 const schema = yup.object({
@@ -91,6 +92,7 @@ export default function JobApplicationPage() {
 
   return (
     <div className="min-h-screen bg-gray-950 mt-20 text-white p-6">
+      {loading && <Loader />}
       <div className="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
         {/* Job List */}
         <div>

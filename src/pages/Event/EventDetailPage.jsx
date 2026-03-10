@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { getEventsSlug } from "@/api/api";
+import Loader from "@/components/Loader";
 
 export default function EventDetailPage() {
   const { eventSlug } = useParams();
@@ -41,12 +42,7 @@ export default function EventDetailPage() {
   }, [eventSlug]);
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center">
-        <div className="w-10 h-10 border-4 border-white border-t-transparent rounded-full animate-spin mb-4"></div>
-        <p className="text-sm tracking-wide">Loading event details...</p>
-      </div>
-    );
+    return <Loader />;
   }
 
   if (!event) {
@@ -97,9 +93,8 @@ export default function EventDetailPage() {
               label="Time"
               value={
                 eventTime
-                  ? `${formatTime(eventTime)}${
-                      eventEndTime ? ` - ${formatTime(eventEndTime)}` : ""
-                    }`
+                  ? `${formatTime(eventTime)}${eventEndTime ? ` - ${formatTime(eventEndTime)}` : ""
+                  }`
                   : "N/A"
               }
             />
@@ -112,8 +107,8 @@ export default function EventDetailPage() {
                 memberFeeText
                   ? memberFeeText
                   : memberFee && nonMemberFee
-                  ? `Members: ₹${memberFee}, Non Members: ₹${nonMemberFee}`
-                  : "N/A"
+                    ? `Members: ₹${memberFee}, Non Members: ₹${nonMemberFee}`
+                    : "N/A"
               }
             />
             <Info

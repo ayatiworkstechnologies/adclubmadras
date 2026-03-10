@@ -9,6 +9,7 @@ import {
   getGalleryCategory,
   getGalleryPhotos,
 } from "@/api/api";
+import Loader from "@/components/Loader";
 
 const TABS_VISIBLE = 4;
 
@@ -106,11 +107,10 @@ export default function GallaryPage() {
 
                 <button
                   onClick={() => setActiveCategoryID(cat.id)}
-                  className={`relative z-10 px-4 py-2 text-xs sm:text-sm font-bold uppercase rounded-full transition duration-300 ${
-                    activeCategoryID === cat.id
+                  className={`relative z-10 px-4 py-2 text-xs sm:text-sm font-bold uppercase rounded-full transition duration-300 ${activeCategoryID === cat.id
                       ? "text-primary"
                       : "text-white hover:text-primary"
-                  }`}
+                    }`}
                 >
                   {cat.categoryName}
                 </button>
@@ -142,9 +142,7 @@ export default function GallaryPage() {
 
       {/* Event Cards */}
       {loading ? (
-        <div className="flex justify-center items-center min-h-[300px]">
-          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-        </div>
+        <Loader />
       ) : (
         <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredEvents.map((event) => {
