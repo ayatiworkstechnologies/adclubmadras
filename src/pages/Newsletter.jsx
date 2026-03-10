@@ -29,7 +29,7 @@ const safeFormatDate = (val) => {
 
 export default function NewsLetter() {
   const [query, setQuery] = useState("");
-  const [activeYear, setActiveYear] = useState("2025");
+  const [activeYear, setActiveYear] = useState("2026");
 
   useEffect(() => {
     window.scrollTo(0, 0);
