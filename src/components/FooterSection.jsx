@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import logo from "/logo.svg";
+import logo from "/logo-bottom.svg";
 import footerFream from "/assets/fotter-fream.svg";
 import { FaLinkedinIn, FaInstagram } from "react-icons/fa";
 import LoginModal from "../pages/MemberLogin";

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { motion } from "framer-motion";
-import logo from "/Adclub_new.png";
+import logo from "/ad-logo.png";
 import { useTheme } from "../context/ThemeContext";
 import Swal from "sweetalert2";
 import { getUserDetails } from "@/api/api";
@@ -77,12 +77,12 @@ export default function Navbar() {
     <>
       {/* ===== Header ===== */}
       <header
-        className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between p-2 px-6 md:px-12 transition-colors duration-500 ${scrolled ? "backdrop-blur bg-black/80 shadow-md" : "bg-black"
-          } ${darkMode ? "text-white" : "text-white"}`}
+        className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between py-2 px-6 md:px-12 transition-colors duration-500 text-white ${scrolled ? "backdrop-blur bg-black/80 shadow-md" : "bg-black"
+          }`}
       >
-        {/* Logo */}
-        <NavLink to="/" className="flex items-center">
-          <img src={logo} alt="Logo" className="h-20 w-auto" />
+        {/* Logo - Removing all sizing constraints to let it show its actual literal size */}
+        <NavLink to="/" className="flex items-center drop-shadow-md">
+          <img src={logo} alt="Logo" className="h-20 w-full" />
         </NavLink>
 
         {/* ===== Desktop nav ===== */}

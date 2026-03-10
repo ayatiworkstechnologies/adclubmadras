@@ -3,22 +3,12 @@ import { createContext, useContext, useState, useEffect } from "react";
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  const [darkMode, setDarkMode] = useState(true); // default: dark mode
+  const darkMode = true; // Hardcoded to always be in dark mode
 
-  // Optional: persist theme to localStorage
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme) {
-      setDarkMode(savedTheme === "dark");
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("theme", darkMode ? "dark" : "light");
-  }, [darkMode]);
+  // Removed localStorage checks and setters to enforce dark mode
 
   const toggleTheme = () => {
-    setDarkMode((prev) => !prev);
+    // No-op: Dark mode cannot be toggled off
   };
 
   return (

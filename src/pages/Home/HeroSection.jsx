@@ -72,15 +72,15 @@ export default function HeroSection() {
 
             {/* Left Overlay: Text + Button */}
             {/* Left Bottom Overlay: Text + Button */}
-            <div className="absolute bottom-16 left-6 sm:left-10 text-left z-20">
-              <h2 className="text-xl sm:text-2xl md:text-4xl font-bold uppercase mb-3 font-glancyr text-black drop-shadow-lg">
+            <div className="absolute bottom-[20%] left-6 sm:bottom-[15%] md:bottom-[12%] lg:bottom-16 md:left-10 text-left z-20">
+              <h2 className="hidden sm:block text-2xl sm:text-3xl md:text-4xl font-bold uppercase mb-3 font-glancyr text-black drop-shadow-lg">
                 MADDYS 2026
               </h2>
               <motion.button
                 onClick={() =>
                   window.open("https://maddys2026.adclubmadras.com/", "_blank")
                 }
-                className="group relative overflow-hidden bg-[#e92028] text-white px-6 py-2 font-asgard sm:px-8 sm:py-3 rounded-full text-xs sm:text-sm font-bold uppercase cursor-pointer"
+                className="group relative overflow-hidden bg-[#e92028] text-white px-6 py-2 sm:px-8 sm:py-3 font-asgard rounded-full text-xs sm:text-sm font-bold uppercase cursor-pointer"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6, duration: 0.5 }}
