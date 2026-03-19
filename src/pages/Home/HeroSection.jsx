@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import bgGraphic from "/assets/hero-fream.svg";
 import { useTheme } from "@/context/ThemeContext";
 import { motion } from "framer-motion";
-import maddyImage from "/maddys-2026-new.png"; // ✅ Ensure this is in `public` or correct `src/assets` path
+import maddyImage from "/maddys-2026-2.png"; // ✅ Ensure this is in `public` or correct `src/assets` path
 import { useNavigate } from "react-router-dom";
 
 export default function HeroSection() {
